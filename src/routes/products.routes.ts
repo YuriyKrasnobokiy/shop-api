@@ -7,6 +7,8 @@ const router = Router();
  * @swagger
  * /products:
  *   get:
+ *     tags:
+ *       - Products
  *     summary: Get products list
  *     description: Returns paginated list of products
  *     parameters:
@@ -16,12 +18,42 @@ const router = Router();
  *           type: integer
  *           example: 0
  *         description: Number of products to skip
+ *
  *       - in: query
  *         name: limit
  *         schema:
  *           type: integer
  *           example: 10
  *         description: Number of products to return
+ *
+ *       - in: query
+ *         name: category
+ *         schema:
+ *           type: integer
+ *           enum: [0, 1, 2]
+ *         description: Filter products by category id
+ *
+ *       - in: query
+ *         name: search
+ *         schema:
+ *           type: string
+ *           example: metallica
+ *         description: Search products by name or band
+ *
+ *       - in: query
+ *         name: sortBy
+ *         schema:
+ *           type: string
+ *           enum: [price, band]
+ *         description: Field to sort by (price or band)
+ *
+ *       - in: query
+ *         name: sort
+ *         schema:
+ *           type: string
+ *           enum: [asc, desc]
+ *         description: Sort direction (asc or desc)
+ *
  *     responses:
  *       200:
  *         description: List of products
@@ -41,22 +73,61 @@ const router = Router();
 router.get("/", (req, res) => {
   const offset = Number(req.query.offset) || 0;
   const limit = Number(req.query.limit) || 10;
+  const categoryId = Number(req.query.category);
+  const search = req.query.search as string;
+  const sort = req.query.sort as string;
+  const sortBy = req.query.sortBy as string;
 
-  const data = products.slice(offset, offset + limit);
-  const count = products.length;
+  let filteredProducts = products;
+
+  if (categoryId) {
+    filteredProducts = products.filter(
+      (product) => product.categoryId === Number(categoryId),
+    );
+  }
+
+  if (search) {
+    const query = search.toLowerCase();
+
+    filteredProducts = filteredProducts.filter(
+      (product) =>
+        product.band.toLowerCase().includes(query) ||
+        product.name.toLowerCase().includes(query),
+    );
+  }
+
+  //Sort by Price
+  if (sortBy === "price") {
+    filteredProducts.sort((a, b) =>
+      sort === "desc" ? b.price - a.price : a.price - b.price,
+    );
+  }
+
+  //Sort by Band
+  if (sortBy === "band") {
+    filteredProducts.sort((a, b) =>
+      sort === "desc"
+        ? b.band.localeCompare(a.band)
+        : a.band.localeCompare(b.band),
+    );
+  }
+
+  const data = filteredProducts.slice(offset, offset + limit);
+  const count = filteredProducts.length;
 
   res.status(200).json({
     data,
     offset,
     limit,
-    count
+    count,
   });
 });
-
 /**
  * @swagger
  * /products/{id}:
  *   get:
+ *     tags:
+ *       - Products
  *     summary: Get product by ID
  *     parameters:
  *       - in: path
@@ -81,13 +152,11 @@ router.get("/", (req, res) => {
  *         description: Product not found
  */
 router.get("/:id", (req, res) => {
-  const product = products.find(
-    (p) => p.id === Number(req.params.id)
-  );
+  const product = products.find((p) => p.id === Number(req.params.id));
 
   if (!product) {
     return res.status(404).json({
-      error: "Product not found"
+      error: "Product not found",
     });
   }
 
