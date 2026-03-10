@@ -1,0 +1,207 @@
+[
+  {
+    "id": 1,
+    "name": "Metallica Logo T-Shirt",
+    "band": "Metallica",
+    "categoryId": 0,
+    "price": 25,
+    "stock": 20,
+    "size": "L",
+    "image": "/images/products/metallica-shirt.jpg",
+    "description": "Classic Metallica logo T-shirt made from 100% cotton."
+  },
+  {
+    "id": 2,
+    "name": "Iron Maiden Eddie T-Shirt",
+    "band": "Iron Maiden",
+    "categoryId": 0,
+    "price": 27,
+    "stock": 18,
+    "size": "M",
+    "image": "/images/products/maiden-shirt.jpg",
+    "description": "Black T-shirt featuring Eddie artwork from Iron Maiden."
+  },
+  {
+    "id": 3,
+    "name": "Black Sabbath Logo T-Shirt",
+    "band": "Black Sabbath",
+    "categoryId": 0,
+    "price": 24,
+    "stock": 16,
+    "size": "XL",
+    "image": "/images/products/sabbath-shirt.jpg",
+    "description": "Vintage Black Sabbath logo T-shirt."
+  },
+  {
+    "id": 4,
+    "name": "Slayer Logo T-Shirt",
+    "band": "Slayer",
+    "categoryId": 0,
+    "price": 23,
+    "stock": 15,
+    "size": "L",
+    "image": "/images/products/slayer-shirt.jpg",
+    "description": "Official Slayer logo T-shirt for thrash metal fans."
+  },
+  {
+    "id": 5,
+    "name": "Nirvana Smiley T-Shirt",
+    "band": "Nirvana",
+    "categoryId": 0,
+    "price": 22,
+    "stock": 19,
+    "size": "M",
+    "image": "/images/products/nirvana-shirt.jpg",
+    "description": "Legendary Nirvana smiley logo shirt."
+  },
+  {
+    "id": 6,
+    "name": "Judas Priest - Painkiller",
+    "band": "Judas Priest",
+    "categoryId": 1,
+    "price": 14,
+    "stock": 15,
+    "image": "/images/products/painkiller-cd.jpg",
+    "description": "Classic Judas Priest album Painkiller on CD."
+  },
+  {
+    "id": 7,
+    "name": "Slayer - Reign in Blood",
+    "band": "Slayer",
+    "categoryId": 1,
+    "price": 13,
+    "stock": 13,
+    "image": "/images/products/reign-in-blood-cd.jpg",
+    "description": "Legendary Slayer album Reign in Blood."
+  },
+  {
+    "id": 8,
+    "name": "Megadeth - Rust in Peace",
+    "band": "Megadeth",
+    "categoryId": 1,
+    "price": 15,
+    "stock": 14,
+    "image": "/images/products/rust-in-peace-cd.jpg",
+    "description": "One of the best thrash metal albums ever recorded."
+  },
+  {
+    "id": 9,
+    "name": "Pantera - Cowboys from Hell",
+    "band": "Pantera",
+    "categoryId": 1,
+    "price": 14,
+    "stock": 12,
+    "image": "/images/products/cowboys-from-hell-cd.jpg",
+    "description": "Pantera breakthrough album Cowboys from Hell."
+  },
+  {
+    "id": 10,
+    "name": "Motorhead - Ace of Spades",
+    "band": "Motorhead",
+    "categoryId": 1,
+    "price": 13,
+    "stock": 10,
+    "image": "/images/products/ace-of-spades-cd.jpg",
+    "description": "Motorhead's iconic Ace of Spades album."
+  },
+  {
+    "id": 11,
+    "name": "Iron Maiden - The Number of the Beast",
+    "band": "Iron Maiden",
+    "categoryId": 2,
+    "price": 32,
+    "stock": 10,
+    "image": "/images/products/number-of-the-beast-vinyl.jpg",
+    "description": "Legendary Iron Maiden vinyl record."
+  },
+  {
+    "id": 12,
+    "name": "Metallica - Master of Puppets",
+    "band": "Metallica",
+    "categoryId": 2,
+    "price": 35,
+    "stock": 8,
+    "image": "/images/products/master-of-puppets-vinyl.jpg",
+    "description": "Metallica masterpiece Master of Puppets on vinyl."
+  },
+  {
+    "id": 13,
+    "name": "Black Sabbath - Paranoid",
+    "band": "Black Sabbath",
+    "categoryId": 2,
+    "price": 30,
+    "stock": 12,
+    "image": "/images/products/paranoid-vinyl.jpg",
+    "description": "Classic heavy metal album Paranoid on vinyl."
+  },
+  {
+    "id": 14,
+    "name": "Pink Floyd - Dark Side of the Moon",
+    "band": "Pink Floyd",
+    "categoryId": 2,
+    "price": 38,
+    "stock": 7,
+    "image": "/images/products/dark-side-vinyl.jpg",
+    "description": "Iconic Pink Floyd album on vinyl."
+  },
+  {
+    "id": 15,
+    "name": "Nirvana - Nevermind",
+    "band": "Nirvana",
+    "categoryId": 2,
+    "price": 29,
+    "stock": 9,
+    "image": "/images/products/nevermind-vinyl.jpg",
+    "description": "Grunge classic Nevermind on vinyl."
+  },
+  {
+    "id": 16,
+    "name": "AC/DC - Back in Black",
+    "band": "AC/DC",
+    "categoryId": 2,
+    "price": 31,
+    "stock": 11,
+    "image": "/images/products/back-in-black-vinyl.jpg",
+    "description": "One of the best selling albums of all time."
+  },
+  {
+    "id": 17,
+    "name": "Led Zeppelin IV",
+    "band": "Led Zeppelin",
+    "categoryId": 2,
+    "price": 34,
+    "stock": 9,
+    "image": "/images/products/zeppelin-iv-vinyl.jpg",
+    "description": "Includes the legendary song Stairway to Heaven."
+  },
+  {
+    "id": 18,
+    "name": "Deep Purple - Machine Head",
+    "band": "Deep Purple",
+    "categoryId": 2,
+    "price": 33,
+    "stock": 8,
+    "image": "/images/products/machine-head-vinyl.jpg",
+    "description": "Contains the iconic track Smoke on the Water."
+  },
+  {
+    "id": 19,
+    "name": "Queen - A Night at the Opera",
+    "band": "Queen",
+    "categoryId": 1,
+    "price": 16,
+    "stock": 11,
+    "image": "/images/products/night-at-the-opera-cd.jpg",
+    "description": "Includes the legendary Bohemian Rhapsody."
+  },
+  {
+    "id": 20,
+    "name": "Metallica - Ride the Lightning",
+    "band": "Metallica",
+    "categoryId": 1,
+    "price": 15,
+    "stock": 10,
+    "image": "/images/products/ride-the-lightning-cd.jpg",
+    "description": "Second studio album by Metallica."
+  }
+]
