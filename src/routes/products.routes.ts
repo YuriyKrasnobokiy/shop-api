@@ -3,6 +3,7 @@ import categories from "../data/categories.json" with { type: "json" };
 import products from "../data/products.json" with { type: "json" };
 import type { Category } from "../types/category.type.js";
 import type { Product } from "../types/product.type.js";
+import { listCategories, listProducts, productById } from "../controllers/products.controller.js";
 
 const router = Router();
   const productsData: Product[] = products as Product[];
@@ -75,60 +76,7 @@ const router = Router();
  *               limit: 10
  *               count: 20
  */
-router.get("/", (req, res) => {
-  const offset = Number(req.query.offset) || 0;
-  const limit = Number(req.query.limit) || 10;
-  const categoryId = Number(req.query.category);
-  const search = req.query.search as string;
-  const sort = req.query.sort as string;
-  const sortBy = req.query.sortBy as string;
-
-  let filteredProducts: Product[] = [...productsData];
-
-  if (!Number.isNaN(categoryId)) {
-    filteredProducts = filteredProducts.filter(
-      (product) => product.categoryId === categoryId,
-    );
-  }
-
-  if (search) {
-    const query = search?.toLowerCase();
-
-    if (query) {
-      filteredProducts = filteredProducts.filter(
-        (product) =>
-          product.band.toLowerCase().includes(query) ||
-          product.name.toLowerCase().includes(query)
-      );
-    }
-  }
-
-  //Sort by Price
-  if (sortBy === "price") {
-    filteredProducts.sort((a, b) =>
-      sort === "desc" ? b.price - a.price : a.price - b.price,
-    );
-  }
-
-  //Sort by Band
-  if (sortBy === "band") {
-    filteredProducts.sort((a, b) =>
-      sort === "desc"
-        ? b.band.localeCompare(a.band)
-        : a.band.localeCompare(b.band),
-    );
-  }
-
-  const data = filteredProducts.slice(offset, offset + limit);
-  const count = filteredProducts.length;
-
-  res.status(200).json({
-    data,
-    offset,
-    limit,
-    count,
-  });
-});
+router.get("/", listProducts);
 
 /**
  * @swagger
@@ -172,19 +120,7 @@ router.get("/", (req, res) => {
  *                  limit: 10
  *                  count: 3
  */
-router.get("/categories", (req, res) => {
-  const offset = Number(req.query.offset) || 0;
-  const limit = Number(req.query.limit) || 10;
-  const data = categoriesData.slice(offset, offset + limit);
-  const count = categoriesData.length;
-
-  res.status(200).json({
-    data,
-    offset,
-    limit,
-    count,
-  });
-});
+router.get("/categories", listCategories);
 
 /**
  * @swagger
@@ -215,21 +151,6 @@ router.get("/categories", (req, res) => {
  *       404:
  *         description: Product not found
  */
-router.get("/:id", (req, res) => {
-  const id = Number(req.params.id);
-
-  if (Number.isNaN(id)) {
-    return res.status(400).json({ error: "Invalid id" });
-  }
-  const product = productsData.find((p) => p.id === id);
-
-  if (!product) {
-    return res.status(404).json({
-      error: "Product not found",
-    });
-  }
-
-  res.json(product);
-});
+router.get("/:id", productById);
 
 export default router;
