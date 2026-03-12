@@ -1,0 +1,5 @@
+[
+  { "id": 0, "name": "tshirt", "label": "T-Shirts" },
+  { "id": 1, "name": "cd", "label": "CD" },
+  { "id": 2, "name": "vinyl", "label": "Vinyl" }
+]
