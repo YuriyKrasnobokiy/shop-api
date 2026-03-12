@@ -148,7 +148,7 @@ router.get("/", (req, res) => {
  *        description: Number of categories to return
  *     responses:
  *       200:
- *         description: Product found
+ *         description: Categories found
  *         content:
  *           application/json:
  *                 example:
