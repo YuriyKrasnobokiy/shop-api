@@ -1,5 +1,6 @@
-import { Router } from "express";
+import { Request, Response, Router } from "express";
 import products from "../data/products.json" with { type: "json" };
+import categories from "../data/categories.json" with { type: "json" };
 
 const router = Router();
 
@@ -78,11 +79,11 @@ router.get("/", (req, res) => {
   const sort = req.query.sort as string;
   const sortBy = req.query.sortBy as string;
 
-  let filteredProducts = products;
+  let filteredProducts = [...products];
 
-  if (categoryId) {
-    filteredProducts = products.filter(
-      (product) => product.categoryId === Number(categoryId),
+  if (!Number.isNaN(categoryId)) {
+    filteredProducts = filteredProducts.filter(
+      (product) => product.categoryId === categoryId,
     );
   }
 
@@ -122,6 +123,63 @@ router.get("/", (req, res) => {
     count,
   });
 });
+
+/**
+ * @swagger
+ * /products/categories:
+ *   get:
+ *     tags:
+ *       - Products
+ *     summary: Get all products categories
+ *     description: List of categories
+ *     parameters:
+ *      - in: query
+ *        name: offset
+ *        schema:
+ *          type: integer
+ *          example: 0
+ *        description: Number of categories to skip
+ *
+ *      - in: query
+ *        name: limit
+ *        schema:
+ *          type: integer
+ *          example: 10
+ *        description: Number of categories to return
+ *     responses:
+ *       200:
+ *         description: Product found
+ *         content:
+ *           application/json:
+ *                 example:
+ *                  data:
+ *                    - id: 0
+ *                      name: tshirt
+ *                      label: T-Shirts
+ *                    - id: 1
+ *                      name: cd
+ *                      label: CD
+ *                    - id: 2
+ *                      name: vinyl
+ *                      label: Vinyl
+ *                  offset: 0
+ *                  limit: 10
+ *                  count: 3
+ */
+router.get("/categories", (req, res) => {
+  const offset = Number(req.query.offset) || 0;
+  const limit = Number(req.query.limit) || 10;
+  const data = categories.slice(offset, offset + limit);
+  const count = categories.length;
+
+  res.status(200).json({
+    data,
+    offset,
+    limit,
+    count,
+  });
+});
+
 /**
  * @swagger
  * /products/{id}:
@@ -152,7 +210,12 @@ router.get("/", (req, res) => {
  *         description: Product not found
  */
 router.get("/:id", (req, res) => {
-  const product = products.find((p) => p.id === Number(req.params.id));
+  const id = Number(req.params.id);
+
+  if (Number.isNaN(id)) {
+    return res.status(400).json({ error: "Invalid id" });
+  }
+  const product = products.find((p) => p.id === id);
 
   if (!product) {
     return res.status(404).json({
