@@ -1,8 +1,12 @@
-import { Request, Response, Router } from "express";
-import products from "../data/products.json" with { type: "json" };
+import { Router } from "express";
 import categories from "../data/categories.json" with { type: "json" };
+import products from "../data/products.json" with { type: "json" };
+import type { Category } from "../types/category.type.js";
+import type { Product } from "../types/product.type.js";
 
 const router = Router();
+  const productsData: Product[] = products as Product[];
+  const categoriesData: Category[] = categories as Category[];
 
 /**
  * @swagger
@@ -79,7 +83,7 @@ router.get("/", (req, res) => {
   const sort = req.query.sort as string;
   const sortBy = req.query.sortBy as string;
 
-  let filteredProducts = [...products];
+  let filteredProducts: Product[] = [...productsData];
 
   if (!Number.isNaN(categoryId)) {
     filteredProducts = filteredProducts.filter(
@@ -88,13 +92,15 @@ router.get("/", (req, res) => {
   }
 
   if (search) {
-    const query = search.toLowerCase();
+    const query = search?.toLowerCase();
 
-    filteredProducts = filteredProducts.filter(
-      (product) =>
-        product.band.toLowerCase().includes(query) ||
-        product.name.toLowerCase().includes(query),
-    );
+    if (query) {
+      filteredProducts = filteredProducts.filter(
+        (product) =>
+          product.band.toLowerCase().includes(query) ||
+          product.name.toLowerCase().includes(query)
+      );
+    }
   }
 
   //Sort by Price
@@ -169,8 +175,8 @@ router.get("/", (req, res) => {
 router.get("/categories", (req, res) => {
   const offset = Number(req.query.offset) || 0;
   const limit = Number(req.query.limit) || 10;
-  const data = categories.slice(offset, offset + limit);
-  const count = categories.length;
+  const data = categoriesData.slice(offset, offset + limit);
+  const count = categoriesData.length;
 
   res.status(200).json({
     data,
@@ -215,7 +221,7 @@ router.get("/:id", (req, res) => {
   if (Number.isNaN(id)) {
     return res.status(400).json({ error: "Invalid id" });
   }
-  const product = products.find((p) => p.id === id);
+  const product = productsData.find((p) => p.id === id);
 
   if (!product) {
     return res.status(404).json({
