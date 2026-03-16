@@ -1,77 +1,128 @@
-import products from "../data/products.json" with { type: "json" };
-import categories from "../data/categories.json" with { type: "json" };
-
 import type { Product } from "../types/product.type.js";
-import type { Category } from "../types/category.type.js";
+import { db } from "../db/postgres.js";
 
-const productsData: Product[] = products as Product[];
-const categoriesData: Category[] = categories as Category[];
-
-export function getProducts(params: {
+type GetProductsParams = {
   offset: number;
   limit: number;
   categoryId?: number;
   search?: string;
-  sort?: string;
-  sortBy?: string;
-}) {
+  sort?: "asc" | "desc";
+  sortBy?: "price" | "band";
+};
 
+type ProductRow = {
+  id: number;
+  name: string;
+  band: string;
+  category_id: number;
+  price: string | number;
+  stock: number;
+  size: string | null;
+  image: string;
+  description: string;
+};
+
+export async function getProducts(params: GetProductsParams) {
   const { offset, limit, categoryId, search, sort, sortBy } = params;
 
-  let filteredProducts = [...productsData];
+  let whereClause = `WHERE 1=1`;
+  const whereValues: unknown[] = [];
+  let paramIndex = 1;
 
   if (categoryId !== undefined) {
-    filteredProducts = filteredProducts.filter(
-      (p) => p.categoryId === categoryId
-    );
+    whereClause += ` AND category_id = $${paramIndex++}`;
+    whereValues.push(categoryId);
   }
 
-  const query = search?.toLowerCase();
-
-  if (query) {
-    filteredProducts = filteredProducts.filter(
-      (p) =>
-        p.band.toLowerCase().includes(query) ||
-        p.name.toLowerCase().includes(query)
-    );
+  if (search) {
+    whereClause += ` AND (LOWER(name) LIKE $${paramIndex} OR LOWER(band) LIKE $${paramIndex})`;
+    whereValues.push(`%${search.toLowerCase()}%`);
+    paramIndex++;
   }
+
+  let orderClause = `ORDER BY id ASC`;
 
   if (sortBy === "price") {
-    filteredProducts.sort((a, b) =>
-      sort === "desc" ? b.price - a.price : a.price - b.price
-    );
+    orderClause = `ORDER BY price ${sort === "desc" ? "DESC" : "ASC"}`;
+  } else if (sortBy === "band") {
+    orderClause = `ORDER BY band ${sort === "desc" ? "DESC" : "ASC"}`;
   }
 
-  if (sortBy === "band") {
-    filteredProducts.sort((a, b) =>
-      sort === "desc"
-        ? b.band.localeCompare(a.band)
-        : a.band.localeCompare(b.band)
-    );
-  }
+  const dataQuery = `
+    SELECT *
+    FROM products
+    ${whereClause}
+    ${orderClause}
+    LIMIT $${paramIndex++} OFFSET $${paramIndex}
+  `;
 
-  const data = filteredProducts.slice(offset, offset + limit);
+  const dataValues = [...whereValues, limit, offset];
+
+  const countQuery = `
+    SELECT COUNT(*) AS total
+    FROM products
+    ${whereClause}
+  `;
+
+  const [dataResult, countResult] = await Promise.all([
+    db.query<ProductRow>(dataQuery, dataValues),
+    db.query<{ total: string }>(countQuery, whereValues),
+  ]);
 
   return {
-    data,
+    data: dataResult.rows.map((row): Product => ({
+      id: row.id,
+      name: row.name,
+      band: row.band,
+      categoryId: row.category_id,
+      price: Number(row.price),
+      stock: row.stock,
+      size: row.size ?? undefined,
+      image: row.image,
+      description: row.description,
+    })),
     offset,
     limit,
-    count: filteredProducts.length
+    count: Number(countResult.rows[0].total),
   };
 }
 
-export function getProductById(id: number) {
-  return productsData.find((p) => p.id === id);
-}
+export async function getProductById(id: number): Promise<Product | null> {
+  const result = await db.query<ProductRow>(
+    `SELECT * FROM products WHERE id = $1`,
+    [id]
+  );
 
-export function getCategories(offset: number, limit: number) {
+  if (result.rows.length === 0) {
+    return null;
+  }
 
-  const data = categoriesData.slice(offset, offset + limit);
+  const row = result.rows[0];
 
   return {
-    data,
-    offset,
-    limit,
-    count: categoriesData.length
+    id: row.id,
+    name: row.name,
+    band: row.band,
+    categoryId: row.category_id,
+    price: Number(row.price),
+    stock: row.stock,
+    size: row.size ?? undefined,
+    image: row.image,
+    description: row.description,
   };
+}
+
+export async function getCategories(offset: number, limit: number) {
+  const result = await db.query(
+    `
+    SELECT id, name
+    FROM categories
+    ORDER BY id
+    OFFSET $1
+    LIMIT $2
+    `,
+    [offset, limit]
+  );
+
+  return result.rows;
 }
