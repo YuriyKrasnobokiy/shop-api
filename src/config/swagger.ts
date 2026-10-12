@@ -2,6 +2,7 @@ import swaggerJsdoc from "swagger-jsdoc";
 import swaggerUi from "swagger-ui-express";
 
 const options = {
+  failOnErrors: true,
   definition: {
     openapi: "3.0.0",
     info: {
@@ -15,7 +16,7 @@ const options = {
       },
     ],
   },
-  apis: ["./src/routes/*.ts"],
+  apis: ["./src/docs/*.yaml"],
 };
 
 const swaggerSpec = swaggerJsdoc(options);

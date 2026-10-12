@@ -1,0 +1,95 @@
+components:
+  schemas:
+    Product:
+      type: object
+      required:
+        - id
+        - name
+        - band
+        - categoryId
+        - price
+        - stock
+        - image
+        - description
+      properties:
+        id:
+          type: integer
+        name:
+          type: string
+        band:
+          type: string
+        categoryId:
+          type: integer
+          enum:
+            - 0
+            - 1
+            - 2
+        price:
+          type: number
+        stock:
+          type: integer
+        size:
+          type: string
+          description: Present for T-shirts
+        image:
+          type: string
+        description:
+          type: string
+    Category:
+      type: object
+      required:
+        - id
+        - name
+        - label
+      properties:
+        id:
+          type: integer
+        name:
+          type: string
+        label:
+          type: string
+    ProductsPage:
+      type: object
+      required:
+        - data
+        - offset
+        - limit
+        - count
+      properties:
+        data:
+          type: array
+          items:
+            $ref: '#/components/schemas/Product'
+        offset:
+          type: integer
+        limit:
+          type: integer
+        count:
+          type: integer
+          description: Total number of matching items before pagination
+    CategoriesPage:
+      type: object
+      required:
+        - data
+        - offset
+        - limit
+        - count
+      properties:
+        data:
+          type: array
+          items:
+            $ref: '#/components/schemas/Category'
+        offset:
+          type: integer
+        limit:
+          type: integer
+        count:
+          type: integer
+          description: Total number of matching items before pagination
+    Error:
+      type: object
+      required:
+        - error
+      properties:
+        error:
+          type: string
