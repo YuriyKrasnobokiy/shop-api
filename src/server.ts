@@ -3,15 +3,17 @@ import cors from "cors";
 import healthRoutes from "./routes/health.routes.js";
 import productsRoutes from "./routes/products.routes.js";
 import { swaggerUi, swaggerSpec } from "./config/swagger.js";
+import { corsOptions } from "./config/cors.js";
 
 const app = express();
+const PORT = Number(process.env.PORT ?? 3000);
 
-app.use(cors());
+app.use(cors(corsOptions));
 app.use(express.json());
 app.use("/docs", swaggerUi.serve, swaggerUi.setup(swaggerSpec));
 app.use("/", healthRoutes);
 app.use("/products", productsRoutes);
 
-app.listen(3000, () => {
-  console.log("Server running on http://localhost:3000");
+app.listen(PORT, () => {
+  console.log(`Server running on http://localhost:${PORT}`);
 });
