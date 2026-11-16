@@ -16,5 +16,5 @@ export const getProductsList = async(params: ProductQueryParams) => {
   if (params.categoryId !== undefined){
     filteredProducts = filteredProducts.filter(p=>p.categoryId === params.categoryId);
   }
-  return filteredProducts = filteredProducts.slice(params.offset, params.offset + params.limit);
+  return filteredProducts.slice(params.offset, params.offset + params.limit);
 };
