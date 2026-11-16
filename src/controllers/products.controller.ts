@@ -1,17 +1,19 @@
-import { Request, Response } from "express";
-import products from "../data/products.json" with { type: "json" };
+import type { Request, Response } from "express";
+import { getAllProducts } from "../services/products.service.js";
 
-export const getProductsList = (req: Request, res: Response) => {
+
+export const getProductsList = async (req: Request, res: Response) => {
   const offset = Number(req.query.offset) || 0;
   const limit = Number(req.query.limit) || 10;
-  const categoryId = Number(req.query.category);
+  const rawCategoryId = Number(req.query.category);
+  const categoryId = !Number.isNaN(rawCategoryId) ? rawCategoryId : undefined;
   const search = req.query.search as string;
   const sort = req.query.sort as string;
   const sortBy = req.query.sortBy as string;
-
+  const products = await getAllProducts();
   let filteredProducts = [...products];
 
-  if (!Number.isNaN(categoryId)) {
+  if (categoryId !== undefined) {
     filteredProducts = filteredProducts.filter(
       (product) => product.categoryId === categoryId,
     );
@@ -53,14 +55,16 @@ export const getProductsList = (req: Request, res: Response) => {
     limit,
     count,
   });
-}
+};
   
-export const getProductById = (req: Request, res: Response) => {
+export const getProductById = async (req: Request, res: Response) => {
   const id = Number(req.params.id);
 
   if (Number.isNaN(id)) {
     return res.status(400).json({ error: "Invalid id" });
   }
+
+  const products = await getAllProducts();
   const product = products.find((p) => p.id === id);
 
   if (!product) {
