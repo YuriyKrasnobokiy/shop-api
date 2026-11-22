@@ -1,62 +1,40 @@
 import type { Request, Response } from "express";
-import { getAllProducts } from "../services/products.service.js";
+import { getAllProducts, getProductsList as getProductsListService } from "../services/products.service.js";
+import type { ProductQueryParams } from "../types/product.js";
+import { isProductCategoryId } from "../utils/product-category.js";
+import { parseQueryNumber } from "../utils/query-number.js";
 
 
 export const getProductsList = async (req: Request, res: Response) => {
-  const offset = Number(req.query.offset) || 0;
-  const limit = Number(req.query.limit) || 10;
-  const rawCategoryId = Number(req.query.category);
-  const categoryId = !Number.isNaN(rawCategoryId) ? rawCategoryId : undefined;
-  const search = req.query.search as string;
-  const sort = req.query.sort as string;
-  const sortBy = req.query.sortBy as string;
-  const products = await getAllProducts();
-  let filteredProducts = [...products];
+  const offset = parseQueryNumber(req.query.offset, 0);
+  const limit = parseQueryNumber(req.query.limit, 10, 1);
+  const rawCategoryId = (typeof(req.query.category)
+    === "string" && req.query.category.trim().length) 
+    ? Number(req.query.category) 
+    : undefined;
+  const search = typeof req.query.search === "string" && req.query.search.trim().length ? req.query.search.trim() : undefined;
+  const sort = typeof req.query.sort === "string" && (req.query.sort === "asc" || req.query.sort === "desc") ? req.query.sort : undefined;
+  const sortBy = typeof req.query.sortBy === "string" && (req.query.sortBy === "price" || req.query.sortBy === "band") ? req.query.sortBy : undefined;
 
-  if (categoryId !== undefined) {
-    filteredProducts = filteredProducts.filter(
-      (product) => product.categoryId === categoryId,
-    );
-  }
-
-  //Search by Band or Name
-  if (search) {
-    const query = search.toLowerCase();
-
-    filteredProducts = filteredProducts.filter(
-      (product) =>
-        product.band.toLowerCase().includes(query) ||
-        product.name.toLowerCase().includes(query),
-    );
-  }
-
-  //Sort by Price
-  if (sortBy === "price") {
-    filteredProducts.sort((a, b) =>
-      sort === "desc" ? b.price - a.price : a.price - b.price,
-    );
-  }
-
-  //Sort by Band
-  if (sortBy === "band") {
-    filteredProducts.sort((a, b) =>
-      sort === "desc"
-        ? b.band.localeCompare(a.band)
-        : a.band.localeCompare(b.band),
-    );
-  }
-
-  const data = filteredProducts.slice(offset, offset + limit);
-  const count = filteredProducts.length;
-
-  res.status(200).json({
-    data,
+  const params: ProductQueryParams = {
     offset,
     limit,
-    count,
-  });
-};
+    search,
+    categoryId: rawCategoryId !== undefined && isProductCategoryId(rawCategoryId) ? rawCategoryId : undefined,
+    sort,
+    sortBy,
+  };
+
   
+    try{
+      const result = await getProductsListService(params);
+      res.status(200).json(result);
+    } catch (error) {
+      console.error(error);
+      res.status(500).json({ error: "Internal server error" });
+    }
+};
+
 export const getProductById = async (req: Request, res: Response) => {
   const id = Number(req.params.id);
 

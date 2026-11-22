@@ -8,6 +8,8 @@ interface BaseProduct {
   description: string;
 }
 
+export const PRODUCT_CATEGORY_IDS = [0, 1, 2] as const;
+export type ProductCategoryId = typeof PRODUCT_CATEGORY_IDS[number];
 export interface TShirt extends BaseProduct {
   categoryId: 0;
   size: string;
