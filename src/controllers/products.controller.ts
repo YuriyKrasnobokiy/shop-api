@@ -3,6 +3,7 @@ import {
   getAllProducts,
   getProductsList as getProductsListService,
   getOneProductById,
+  createProduct,
 } from "../services/products.service.js";
 import type { ProductQueryParams } from "../types/product.js";
 import { isProductCategoryId } from "../utils/product-category.js";
@@ -51,10 +52,12 @@ export const getProductsList = async (req: Request, res: Response) => {
   }
 };
 
-export const getProductById = async (req: Request, res: Response) => {
-  const id = Number(req.params.id);
+// Get a single product by ID
 
-  if (!Number.isInteger(id) || id <= 0) {
+export const getProductById = async (req: Request, res: Response) => {
+  const id = req.params.id;
+
+  if (typeof id !== "string" || !id.trim()) {
     return res.status(400).json({ error: "Invalid id" });
   }
 
@@ -72,3 +75,15 @@ export const getProductById = async (req: Request, res: Response) => {
     res.status(500).json({ error: "Internal server error" });
   }
 };
+
+export const createNewProduct = async (req: Request, res: Response) => {
+  const productData = req.body;
+
+  try {
+    const newProduct = await createProduct(productData);
+    res.status(201).json(newProduct);
+  } catch (error) {
+    console.error(error);
+    res.status(500).json({ error: "Internal server error" });
+  }
+}

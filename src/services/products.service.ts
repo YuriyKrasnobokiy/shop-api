@@ -1,6 +1,7 @@
-import { readFile } from "node:fs/promises";
+import { readFile, writeFile } from "node:fs/promises";
 import path from "node:path";
-import { Product, ProductQueryParams } from "../types/product.js";
+import { CreateProductDto, Product, ProductQueryParams } from "../types/product.js";
+import { nanoid } from "nanoid";
 
 const productsPath = path.resolve('src','data', 'products.json');
 
@@ -56,10 +57,26 @@ export const getProductsList = async(params: ProductQueryParams) => {
   };
 };
 
-export const getOneProductById = async (id: number)=> {
+// Get a single product by ID
+
+export const getOneProductById = async (id: string)=> {
 
   const products = await getAllProducts();
   const searchingProduct = products.find((p) => p.id === id);
 
   return searchingProduct;
 };
+
+export const createProduct = async (product: CreateProductDto) => {
+  const products = await getAllProducts();
+
+  const newProduct: Product = {
+    ...product,
+    id: nanoid(),
+  };
+
+  const newProducts = [...products, newProduct];
+  await writeFile(productsPath, JSON.stringify(newProducts, null, 2), 'utf-8');
+
+  return newProduct;
+}

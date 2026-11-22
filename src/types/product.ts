@@ -1,5 +1,8 @@
+import type { createProductSchema } from '../schemas/product.schema.js';
+import type { z } from 'zod';
+
 interface BaseProduct {
-  id: number;
+  id: string;
   name: string;
   band: string;
   price: number;
@@ -33,3 +36,5 @@ export interface ProductQueryParams {
   sort?: 'asc' | 'desc';
   sortBy?: "price" | "band";
 }
+
+export type CreateProductDto = z.infer<typeof createProductSchema>;

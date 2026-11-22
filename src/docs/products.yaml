@@ -1,3 +1,4 @@
+
 paths:
   /products:
     get:
@@ -10,6 +11,7 @@ paths:
           name: offset
           schema:
             type: integer
+            minimum: 0
             example: 0
             default: 0
           description: Number of products to skip
@@ -17,6 +19,7 @@ paths:
           name: limit
           schema:
             type: integer
+            minimum: 1
             example: 10
             default: 10
           description: Number of products to return
@@ -24,11 +27,8 @@ paths:
           name: category
           schema:
             type: integer
-            enum:
-              - 0
-              - 1
-              - 2
-          description: Filter products by category id
+            enum: [0, 1, 2]
+          description: Filter products by category ID
         - in: query
           name: search
           schema:
@@ -39,19 +39,15 @@ paths:
           name: sortBy
           schema:
             type: string
-            enum:
-              - price
-              - band
-          description: Field to sort by (price or band)
+            enum: [price, band]
+          description: Field to sort by
         - in: query
           name: sort
           schema:
             type: string
-            enum:
-              - asc
-              - desc
+            enum: [asc, desc]
             default: asc
-          description: Sort direction (asc or desc)
+          description: Sort direction
       responses:
         '200':
           description: List of products
@@ -61,7 +57,7 @@ paths:
                 $ref: '#/components/schemas/ProductsPage'
               example:
                 data:
-                  - id: 1
+                  - id: Vr5zwwxYshs0oy0LyFbXT
                     name: Metallica Logo T-Shirt
                     band: Metallica
                     categoryId: 0
@@ -73,17 +69,69 @@ paths:
                 offset: 0
                 limit: 10
                 count: 20
+
+    post:
+      tags:
+        - Products
+      summary: Create a new product
+      description: Creates a product with an automatically generated Nano ID
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/CreateProduct'
+            example:
+              name: Metallica Logo T-Shirt
+              band: Metallica
+              categoryId: 0
+              price: 25
+              stock: 20
+              size: L
+              image: /images/products/metallica-shirt.jpg
+              description: Classic Metallica logo T-shirt.
+      responses:
+        '201':
+          description: Product created successfully
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Product'
+              example:
+                id: Vr5zwwxYshs0oy0LyFbXT
+                name: Metallica Logo T-Shirt
+                band: Metallica
+                categoryId: 0
+                price: 25
+                stock: 20
+                size: L
+                image: /images/products/metallica-shirt.jpg
+                description: Classic Metallica logo T-shirt.
+        '400':
+          description: Invalid product data (requires validation middleware)
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+        '500':
+          description: Internal server error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+
   /products/categories:
     get:
       tags:
         - Products
       summary: Get all products categories
-      description: List of categories
+      description: Returns paginated list of categories
       parameters:
         - in: query
           name: offset
           schema:
             type: integer
+            minimum: 0
             example: 0
             default: 0
           description: Number of categories to skip
@@ -91,6 +139,7 @@ paths:
           name: limit
           schema:
             type: integer
+            minimum: 1
             example: 10
             default: 10
           description: Number of categories to return
@@ -115,6 +164,7 @@ paths:
                 offset: 0
                 limit: 10
                 count: 3
+
   /products/{id}:
     get:
       tags:
@@ -125,9 +175,9 @@ paths:
           name: id
           required: true
           schema:
-            type: integer
-            example: 3
-          description: Product ID
+            type: string
+            example: Vr5zwwxYshs0oy0LyFbXT
+          description: Product Nano ID
       responses:
         '200':
           description: Product found
@@ -136,15 +186,15 @@ paths:
               schema:
                 $ref: '#/components/schemas/Product'
               example:
-                id: 3
-                name: Black Sabbath Logo T-Shirt
-                band: Black Sabbath
+                id: Vr5zwwxYshs0oy0LyFbXT
+                name: Metallica Logo T-Shirt
+                band: Metallica
                 categoryId: 0
-                price: 24
-                stock: 16
-                size: XL
-                image: /images/products/sabbath-shirt.jpg
-                description: Vintage Black Sabbath logo T-shirt.
+                price: 25
+                stock: 20
+                size: L
+                image: /images/products/metallica-shirt.jpg
+                description: Classic Metallica logo T-shirt made from 100% cotton.
         '400':
           description: Invalid product ID
           content:
@@ -161,3 +211,9 @@ paths:
                 $ref: '#/components/schemas/Error'
               example:
                 error: Product not found
+        '500':
+          description: Internal server error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'

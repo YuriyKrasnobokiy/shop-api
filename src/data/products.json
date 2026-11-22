@@ -1,6 +1,6 @@
 [
   {
-    "id": 1,
+    "id": "xQFvthJ0NcEXSpGHf_W4R",
     "name": "Metallica Logo T-Shirt",
     "band": "Metallica",
     "categoryId": 0,
@@ -11,7 +11,7 @@
     "description": "Classic Metallica logo T-shirt made from 100% cotton."
   },
   {
-    "id": 2,
+    "id": "jZk7daBs1HU4201_40GY9",
     "name": "Iron Maiden Eddie T-Shirt",
     "band": "Iron Maiden",
     "categoryId": 0,
@@ -22,7 +22,7 @@
     "description": "Black T-shirt featuring Eddie artwork from Iron Maiden."
   },
   {
-    "id": 3,
+    "id": "gGOv0TuAGi27GB0-Xt67j",
     "name": "Black Sabbath Logo T-Shirt",
     "band": "Black Sabbath",
     "categoryId": 0,
@@ -33,7 +33,7 @@
     "description": "Vintage Black Sabbath logo T-shirt."
   },
   {
-    "id": 4,
+    "id": "39DOs19UZNmBqb2bKuOzW",
     "name": "Slayer Logo T-Shirt",
     "band": "Slayer",
     "categoryId": 0,
@@ -44,7 +44,7 @@
     "description": "Official Slayer logo T-shirt for thrash metal fans."
   },
   {
-    "id": 5,
+    "id": "MJxwmwjKekQNqlwkdcwuZ",
     "name": "Nirvana Smiley T-Shirt",
     "band": "Nirvana",
     "categoryId": 0,
@@ -55,7 +55,7 @@
     "description": "Legendary Nirvana smiley logo shirt."
   },
   {
-    "id": 6,
+    "id": "HK_c5dC6fiqw6cxsxXTVM",
     "name": "Judas Priest - Painkiller",
     "band": "Judas Priest",
     "categoryId": 1,
@@ -65,7 +65,7 @@
     "description": "Classic Judas Priest album Painkiller on CD."
   },
   {
-    "id": 7,
+    "id": "klQMATW80I7txOZITk1qY",
     "name": "Slayer - Reign in Blood",
     "band": "Slayer",
     "categoryId": 1,
@@ -75,7 +75,7 @@
     "description": "Legendary Slayer album Reign in Blood."
   },
   {
-    "id": 8,
+    "id": "EBvrwH8lBIYa_PfRmGbhI",
     "name": "Megadeth - Rust in Peace",
     "band": "Megadeth",
     "categoryId": 1,
@@ -85,7 +85,7 @@
     "description": "One of the best thrash metal albums ever recorded."
   },
   {
-    "id": 9,
+    "id": "i55acpuaInKhUPDoyqPcS",
     "name": "Pantera - Cowboys from Hell",
     "band": "Pantera",
     "categoryId": 1,
@@ -95,7 +95,7 @@
     "description": "Pantera breakthrough album Cowboys from Hell."
   },
   {
-    "id": 10,
+    "id": "m_aZO5lo_fEUyG3yD7D3Q",
     "name": "Motorhead - Ace of Spades",
     "band": "Motorhead",
     "categoryId": 1,
@@ -105,7 +105,7 @@
     "description": "Motorhead's iconic Ace of Spades album."
   },
   {
-    "id": 11,
+    "id": "CxFeEqhooo9ADtSt8R-uo",
     "name": "Iron Maiden - The Number of the Beast",
     "band": "Iron Maiden",
     "categoryId": 2,
@@ -115,7 +115,7 @@
     "description": "Legendary Iron Maiden vinyl record."
   },
   {
-    "id": 12,
+    "id": "0Ne1lXRmbmD6zyX2UYAIu",
     "name": "Metallica - Master of Puppets",
     "band": "Metallica",
     "categoryId": 2,
@@ -125,7 +125,7 @@
     "description": "Metallica masterpiece Master of Puppets on vinyl."
   },
   {
-    "id": 13,
+    "id": "yHgvLtt2-EsaUQeLTyMGi",
     "name": "Black Sabbath - Paranoid",
     "band": "Black Sabbath",
     "categoryId": 2,
@@ -135,7 +135,7 @@
     "description": "Classic heavy metal album Paranoid on vinyl."
   },
   {
-    "id": 14,
+    "id": "uNG6F-ybyQbFB3sxa1u8b",
     "name": "Pink Floyd - Dark Side of the Moon",
     "band": "Pink Floyd",
     "categoryId": 2,
@@ -145,7 +145,7 @@
     "description": "Iconic Pink Floyd album on vinyl."
   },
   {
-    "id": 15,
+    "id": "-5wAHcUUOXD4RW13TJJQE",
     "name": "Nirvana - Nevermind",
     "band": "Nirvana",
     "categoryId": 2,
@@ -155,7 +155,7 @@
     "description": "Grunge classic Nevermind on vinyl."
   },
   {
-    "id": 16,
+    "id": "5mjLOIdw-hk9yQx9-owtp",
     "name": "AC/DC - Back in Black",
     "band": "AC/DC",
     "categoryId": 2,
@@ -165,7 +165,7 @@
     "description": "One of the best selling albums of all time."
   },
   {
-    "id": 17,
+    "id": "98J_kqGbC7Ky_eamsDFGJ",
     "name": "Led Zeppelin IV",
     "band": "Led Zeppelin",
     "categoryId": 2,
@@ -175,7 +175,7 @@
     "description": "Includes the legendary song Stairway to Heaven."
   },
   {
-    "id": 18,
+    "id": "sWFoN_L1aSw6MIy0I_EZc",
     "name": "Deep Purple - Machine Head",
     "band": "Deep Purple",
     "categoryId": 2,
@@ -185,7 +185,7 @@
     "description": "Contains the iconic track Smoke on the Water."
   },
   {
-    "id": 19,
+    "id": "Lk7YiAY6_ePUurApCSqbJ",
     "name": "Queen - A Night at the Opera",
     "band": "Queen",
     "categoryId": 1,
@@ -195,7 +195,7 @@
     "description": "Includes the legendary Bohemian Rhapsody."
   },
   {
-    "id": 20,
+    "id": "Cs93ZFJ76XIO-C781O6Yi",
     "name": "Metallica - Ride the Lightning",
     "band": "Metallica",
     "categoryId": 1,
@@ -203,5 +203,16 @@
     "stock": 10,
     "image": "/images/products/ride-the-lightning-cd.jpg",
     "description": "Second studio album by Metallica."
+  },
+  {
+    "name": "Metallica Logo T-Shirt",
+    "band": "Metallica",
+    "categoryId": 0,
+    "price": 25,
+    "stock": 20,
+    "size": "L",
+    "image": "/images/products/metallica-shirt.jpg",
+    "description": "Classic Metallica logo T-shirt.",
+    "id": "44Nl9c1BtOzU8uyHx0az5"
   }
 ]
