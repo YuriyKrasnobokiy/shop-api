@@ -55,3 +55,11 @@ export const getProductsList = async(params: ProductQueryParams) => {
     count,
   };
 };
+
+export const getOneProductById = async (id: number)=> {
+
+  const products = await getAllProducts();
+  const searchingProduct = products.find((p) => p.id === id);
+
+  return searchingProduct;
+};
